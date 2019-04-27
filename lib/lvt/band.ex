@@ -2,19 +2,19 @@ defmodule Lvt.Band do
   use GenServer
 
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, [nil, nil, nil, nil, nil])
+    GenServer.start_link(__MODULE__, [nil, nil, nil, nil, nil], name: __MODULE__)
   end
 
   def init(opts) do
     {:ok, opts}
   end
 
-  def add_at(server, index, new_member) do
-    GenServer.call(server, {:add_at, index, new_member})
+  def add_at(index, new_member) do
+    GenServer.call(__MODULE__, {:add_at, index, new_member})
   end
 
-  def members(server) do
-    GenServer.call(server, {:members})
+  def members() do
+    GenServer.call(__MODULE__, {:members})
   end
 
   def handle_call({:add_at, index, new_member}, _from, members) do

@@ -7,10 +7,10 @@ defmodule Lvt.BandTest do
   end
 
   test "length of 5", %{band: band} do
-    assert Lvt.Band.members(band) |> length == 5
+    assert Lvt.Band.members() |> length == 5
   end
 
   test "add_at", %{band: band} do
-    Lvt.Band.add_at(band, 0, "fort")
+    Lvt.Band.add_at(0, "fort")
   end
 end
