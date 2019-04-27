@@ -1,6 +1,8 @@
 defmodule LvtWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :lvt
 
+  socket "/live", Phoenix.LiveView.Socket
+
   socket "/socket", LvtWeb.UserSocket,
     websocket: true,
     longpoll: false

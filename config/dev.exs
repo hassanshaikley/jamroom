@@ -52,7 +52,8 @@ config :lvt, LvtWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/lvt_web/{live,views}/.*(ex)$",
-      ~r"lib/lvt_web/templates/.*(eex)$"
+      ~r"lib/lvt_web/templates/.*(eex)$",
+      ~r{lib/my_app_web/live/.*(ex)$}
     ]
   ]
 
