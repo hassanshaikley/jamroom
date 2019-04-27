@@ -12,7 +12,9 @@ defmodule Lvt.Application do
       Lvt.Repo,
       # Start the endpoint when the application starts
       LvtWeb.Endpoint,
-      Lvt.Band
+      Lvt.Band,
+      {Phoenix.PubSub.PG2, name: Lvt.InternalPubSub, adapter: Phoenix.PubSub.PG2}
+
       # Starts a worker by calling: Lvt.Worker.start_link(arg)
       # {Lvt.Worker, arg},
     ]
