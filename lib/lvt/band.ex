@@ -13,12 +13,20 @@ defmodule Lvt.Band do
     GenServer.call(__MODULE__, {:add_at, index, new_member})
   end
 
+  def remove_at(index) do
+    GenServer.call(__MODULE__, {:add_at, index, nil})
+  end
+
   def members() do
     GenServer.call(__MODULE__, {:members})
   end
 
   def handle_call({:add_at, index, new_member}, _from, members) do
     case Enum.at(members, index) do
+      _ when is_nil(new_member) ->
+        updated_members = List.replace_at(members, index, new_member)
+        {:reply, updated_members, updated_members}
+
       nil ->
         updated_members = List.replace_at(members, index, new_member)
         {:reply, updated_members, updated_members}
