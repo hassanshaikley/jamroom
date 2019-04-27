@@ -7,7 +7,7 @@ defmodule LvtWeb.GameView do
       <div>
         <%= @amirdy %>
       </div>
-      <button phx-click="berdy">Deploy to GitHub</button>
+      <button phx-click="guitar">Guitar</button>
 
       <script>
       </script>
@@ -19,8 +19,8 @@ defmodule LvtWeb.GameView do
     {:ok, assign(socket, amirdy: "Nah!")}
   end
 
-  def handle_event("berdy", _value, socket) do
+  def handle_event("guitar", _value, socket) do
     # do the deploy process
-    {:noreply, assign(socket, amirdy: "READY.!")}
+    {:noreply, assign(socket, amirdy: "Taken")}
   end
 end
