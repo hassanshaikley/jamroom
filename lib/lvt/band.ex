@@ -21,6 +21,10 @@ defmodule Lvt.Band do
     GenServer.call(__MODULE__, {:members})
   end
 
+  def guitarist() do
+    GenServer.call(__MODULE__, {:members}) |> Enum.at(0)
+  end
+
   def handle_call({:add_at, index, new_member}, _from, members) do
     case Enum.at(members, index) do
       _ when is_nil(new_member) ->

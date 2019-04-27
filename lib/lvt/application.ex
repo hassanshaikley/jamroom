@@ -11,7 +11,8 @@ defmodule Lvt.Application do
       # Start the Ecto repository
       Lvt.Repo,
       # Start the endpoint when the application starts
-      LvtWeb.Endpoint
+      LvtWeb.Endpoint,
+      Lvt.Band
       # Starts a worker by calling: Lvt.Worker.start_link(arg)
       # {Lvt.Worker, arg},
     ]

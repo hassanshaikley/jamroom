@@ -21,6 +21,7 @@ defmodule LvtWeb.GameView do
 
   def handle_event("select-guitar", _value, socket) do
     # do the deploy process
+    Lvt.Band.add_at(0, "player-a")
     {:noreply, assign(socket, amirdy: "Taken")}
   end
 end
