@@ -18,8 +18,14 @@ defmodule Lvt.Band do
   end
 
   def handle_call({:add_at, index, new_member}, _from, members) do
-    updated_members = List.replace_at(members, index, new_member)
-    {:reply, updated_members, updated_members}
+    case Enum.at(members, index) do
+      nil ->
+        updated_members = List.replace_at(members, index, new_member)
+        {:reply, updated_members, updated_members}
+
+      _ ->
+        {:reply, {:error, "taken"}, members}
+    end
   end
 
   def handle_call({:members}, _from, members) do

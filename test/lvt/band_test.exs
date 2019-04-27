@@ -11,6 +11,11 @@ defmodule Lvt.BandTest do
   end
 
   test "add_at", %{band: band} do
-    Lvt.Band.add_at(0, "fort")
+    assert Lvt.Band.add_at(0, "fort") |> hd == "fort"
+  end
+
+  test "adding to already taken spot shouldn't add anything", %{band: band} do
+    Lvt.Band.add_at(0, "farm-a")
+    {:error, "taken"} = Lvt.Band.add_at(0, "farm-b")
   end
 end
