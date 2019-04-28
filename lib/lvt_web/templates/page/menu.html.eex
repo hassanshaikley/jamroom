@@ -1,0 +1,50 @@
+<div>
+You are: <%= @name %>
+<br />
+Guitarist is: <%= @guitarist %>
+<br />
+Drummer is: <%= @drummer %>
+<br />
+
+<div style="display: grid; grid-template-columns: 110px 110px;">
+    <div>
+        <%= if @guitarist == nil do %>
+            <div phx-click="select-guitar" style=" z-index: 999; background: yellow;">
+            Select Guitar
+            </div>
+        <% end %>
+
+        <%= if @guitarist == @name do %>
+            <div phx-click="un-select-guitar" style=" z-index: 999; background: yellow;">
+            Drop Guitar
+            </div>
+        <% end %>
+    </div>
+    <div>
+        <%= if @drummer == nil do %>
+            <div phx-click="select-drum" style="z-index: 999; background: yellow;     left: 103px;">
+            Select Drum
+            </div>
+        <% end %>
+        <%= if @drummer == @name do %>
+            <div phx-click="un-select-drum" style="z-index: 999; background: yellow;">
+            Drop Drum
+            </div>
+        <% end %>
+
+
+    </div>
+
+</div>
+
+
+
+
+<%= if @drummer == nil do %>
+    <%# <img src="/images/no_drummer.png" class="game_img" /> %>
+<% end %>
+
+
+
+
+

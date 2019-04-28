@@ -1,18 +1,10 @@
-<%= if @drummer == nil do %>
-<div phx-click="select-drum" style="position: absolute; z-index: 999; background: yellow;     left: 103px;">
-    Select Drum
-</div>
-<img src="/images/no_drummer.png" class="game_img" />
-<% end %>
-
-
 
 <%= if is_binary(@hit_drum)  do %>
 <img src="/images/drummer_1.png" class="game_img" />
 <div id="<%= @hit_drum %>">
-    <script>
-    window.playDrum && window.playDrum({chord: "<%= @hit_drum %>", stroke: 'down'});
-    </script>
+<script>
+window.playDrum && window.playDrum({chord: "<%= @hit_drum %>", stroke: 'down'});
+</script>
 </div>
 <% end %>
 <%= if !is_nil(@drummer) && is_nil(@hit_drum) do  %>
@@ -21,10 +13,5 @@
 
 
 <%= if @drummer == @name do %>
-<div phx-click="un-select-drum" style="position: absolute; z-index: 999; background: yellow;">
-    Drop Drum
-</div>
-<div>
     <div phx-keydown="drum-keydown" phx-target="window"> </div>
-</div>
 <% end %>

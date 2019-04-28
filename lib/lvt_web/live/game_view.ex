@@ -9,20 +9,10 @@ defmodule LvtWeb.GameView do
   def render(assigns) do
     ~L"""
     <div class="">
-      <div>
-      You are: <%= @name %>
-      <br />
-      Guitarist is: <%= @guitarist %>
-      <br />
-      Drummer is: <%= @drummer %>
-      <br />
-
+      <%= LvtWeb.PageView.render("menu.html", assigns) %>
       <img src="/images/bg.png" class="game_img" />
-
       <%= LvtWeb.PageView.render("guitarist.html", assigns) %>
       <%= LvtWeb.PageView.render("drummer.html", assigns) %>
-
-
       </div>
     </div>
     """

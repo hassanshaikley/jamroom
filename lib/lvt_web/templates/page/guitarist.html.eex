@@ -1,18 +1,12 @@
-<%= if @guitarist == nil do %>
-<div phx-click="select-guitar" style="position: absolute; z-index: 999; background: yellow;">
-    Select Guitar
-</div>
-<img src="/images/no_guitarist.png" class="game_img" />
-<% end %>
 
 
 
 <%= if is_binary(@strum_guitar)  do %>
 <img src="/images/guitarist_1.png" class="game_img" />
 <div id="<%= @strum_guitar %>">
-    <script>
-    window.playGuitar && window.playGuitar({chord: "<%= @strum_guitar %>", stroke: 'down'});
-    </script>
+<script>
+window.playGuitar && window.playGuitar({chord: "<%= @strum_guitar %>", stroke: 'down'});
+</script>
 </div>
 <% end %>
 <%= if !is_nil(@guitarist) && is_nil(@strum_guitar) do  %>
@@ -21,10 +15,10 @@
 
 
 <%= if @guitarist == @name do %>
-<div phx-click="un-select-guitar" style="position: absolute; z-index: 999; background: yellow;">
-    Drop Guitar
+<div phx-keydown="guitar-keydown" phx-target="window"> </div>
 </div>
-<div>
-    <div phx-keydown="guitar-keydown" phx-target="window"> </div>
-</div>
+<% end %>
+
+<%= if @guitarist == nil do %>
+    <img src="/images/no_guitarist.png" class="game_img" />
 <% end %>
