@@ -4,12 +4,6 @@ defmodule LvtWeb.GameView do
 
   # <%= #@guitarist %>
 
-  # <%= if  @guitarist == nil do %>
-  # <button phx-click="select-guitar">select-guitar</button>
-  #   <% else %>
-  #   <button phx-click="un-select-guitar">un-select-guitar</button>
-  # <% end %>
-
   def render(assigns) do
     ~L"""
     <div class="">
@@ -22,9 +16,11 @@ defmodule LvtWeb.GameView do
 
 
       <%= if @guitarist == nil do %>
-        <div phx-click="select-guitar">
-          <img src="/images/no_guitarist.png" class="game_img" />
+        <div phx-click="select-guitar" style="position: absolute; z-index: 999; background: yellow;">
+          Select Guitar
         </div>
+        <img src="/images/no_guitarist.png" class="game_img" />
+
       <% end %>
 
       <%= if is_binary(@strum_guitar)  do %>
