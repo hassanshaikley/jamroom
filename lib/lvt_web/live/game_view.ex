@@ -22,7 +22,9 @@ defmodule LvtWeb.GameView do
       <%= if @guitarist == nil do %>
         <button phx-click="select-guitar">select-guitar</button>
       <% else %>
-        <div phx-keydown="guitar-keydown" phx-target="window"> </div>
+        <%= if @guitarist == @name do %>
+          <div phx-keydown="guitar-keydown" phx-target="window"> </div>
+        <% end %>
         <button phx-click="un-select-guitar">un-select-guitar</button>
       <% end %>
 
