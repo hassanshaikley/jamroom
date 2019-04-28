@@ -49,7 +49,7 @@ config :lvt, LvtWeb.Endpoint,
 config :lvt, LvtWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg|mp3)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/lvt_web/{live,views}/.*(ex)$",
       ~r"lib/lvt_web/templates/.*(eex)$",
