@@ -18,10 +18,16 @@ defmodule LvtWeb.GameView do
       <br />
       Guitarist is: <%= @guitarist %>
       <br />
+      <img src="/images/bg.png" class="game_img" />
+
 
       <%= if @guitarist == nil do %>
-        <button phx-click="select-guitar">select-guitar</button>
+        <div phx-click="select-guitar">
+        <img src="/images/no_guitarist.png" class="game_img" />
+      </div>
+
       <% else %>
+        <img src="/images/guitarist_1.png" class="game_img" />
         <%= if @guitarist == @name do %>
           <div phx-keydown="guitar-keydown" phx-target="window"> </div>
           <button phx-click="un-select-guitar">un-select-guitar</button>
