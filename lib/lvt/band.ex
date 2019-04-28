@@ -13,6 +13,9 @@ defmodule Lvt.Band do
     GenServer.call(__MODULE__, {:add_at, index, new_member})
   end
 
+  def remove_at(nil) do
+  end
+
   def remove_at(index) do
     GenServer.call(__MODULE__, {:add_at, index, nil})
   end

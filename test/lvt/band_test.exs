@@ -18,6 +18,10 @@ defmodule Lvt.BandTest do
     assert Lvt.Band.members() |> hd == nil
   end
 
+  test "remove_at/1 handles nil" do
+    Lvt.Band.remove_at(nil)
+  end
+
   test "guitarist/1" do
     Lvt.Band.remove_at(0)
     Lvt.Band.add_at(0, "Freddy")

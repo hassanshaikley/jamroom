@@ -32,15 +32,17 @@ defmodule LvtWeb.GameView do
         </div>
       <% end %>
 
-      <%= if !is_nil(@guitarist) && @strum_guitar == false do  %>
+      <%= if !is_nil(@guitarist) && is_nil(@strum_guitar) do  %>
         <img src="/images/guitarist_2.png" class="game_img" />
       <% end %>
 
 
       <%= if @guitarist == @name do %>
+        <div phx-click="un-select-guitar" style="position: absolute; z-index: 999; background: yellow;">
+          Drop Guitar
+        </div>
         <div>
           <div phx-keydown="guitar-keydown" phx-target="window"> </div>
-          <button phx-click="un-select-guitar">un-select-guitar</button>
         </div>
       <% end %>
 
@@ -53,18 +55,19 @@ defmodule LvtWeb.GameView do
     # May need to unsubscribe on termination
     if connected?(socket), do: Phoenix.PubSub.subscribe(Lvt.InternalPubSub, "game")
 
+    Lvt.Band.guitarist()
+
     {:ok,
      assign(socket, name: get_random_name, guitarist: Lvt.Band.guitarist(), strum_guitar: nil)}
   end
 
   def terminate(_reason, socket) do
-    # GameManager.Manager.leave_seat(socket.id)
-    Lvt.Band.members()
-    |> Enum.find_index(fn x -> x == socket.assigns.name end)
-    |> Lvt.Band.remove_at()
-
-    # Also need to set strum_guitar to nil again
-    # strum_guitar: nil
+    with member_index <-
+           Lvt.Band.members()
+           |> Enum.find_index(fn x -> x == socket.assigns.name end) do
+      member_index
+      |> Lvt.Band.remove_at()
+    end
 
     Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:update_game_state})
   end
@@ -76,8 +79,7 @@ defmodule LvtWeb.GameView do
 
     with idk <- Lvt.Band.add_at(0, maybe_new_guitarist) do
       Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:update_game_state})
-
-      {:noreply, assign(socket, guitarist: maybe_new_guitarist, strum_guitar: false)}
+      {:noreply, assign(socket, guitarist: maybe_new_guitarist, strum_guitar: nil)}
     else
       err ->
         {:noreply, socket}
@@ -105,7 +107,7 @@ defmodule LvtWeb.GameView do
     Lvt.Band.remove_at(0)
     Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:update_game_state})
 
-    {:noreply, assign(socket, guitarist: nil, strum_guitar: false)}
+    {:noreply, assign(socket, guitarist: nil, strum_guitar: nil)}
   end
 
   def handle_info({:update_game_state}, socket) do
@@ -117,7 +119,7 @@ defmodule LvtWeb.GameView do
   end
 
   def handle_info({:stop_sound, guitar}, socket) do
-    {:noreply, assign(socket, strum_guitar: false)}
+    {:noreply, assign(socket, strum_guitar: nil)}
   end
 
   defp get_random_name do
