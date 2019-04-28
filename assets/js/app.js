@@ -16,8 +16,16 @@ import "phoenix_html"
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
+window.playGuitar = ({ chord, stroke }) => {
+    console.log(`Playing ${chord} in a ${stroke}-stroke`)
+}
 
 import LiveSocket from "phoenix_live_view"
 
 let liveSocket = new LiveSocket("/live");
+
+
+
+
 liveSocket.connect();
+

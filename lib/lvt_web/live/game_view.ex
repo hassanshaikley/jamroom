@@ -2,7 +2,7 @@ defmodule LvtWeb.GameView do
   use Phoenix.LiveView
   # use Lvt.Game
 
-  # <%= @guitarist %>
+  # <%= #@guitarist %>
 
   # <%= if  @guitarist == nil do %>
   # <button phx-click="select-guitar">select-guitar</button>
@@ -20,15 +20,21 @@ defmodule LvtWeb.GameView do
       <br />
 
       <%= if @guitarist == nil do %>
-      <button phx-click="select-guitar">select-guitar</button>
-        <% else %>
+        <button phx-click="select-guitar">select-guitar</button>
+      <% else %>
+        <div phx-keydown="guitar-keydown" phx-target="window"> </div>
         <button phx-click="un-select-guitar">un-select-guitar</button>
       <% end %>
 
-      </div>
+      <%= if @strum_guitar > 0 do %>
+        <div id="<%= @strum_guitar %>">
+          <script>
+            window.playGuitar && window.playGuitar({chord: 'a', stroke: 'down'});
+          </script>
+        </div>
+      <% end %>
 
-      <script>
-      </script>
+      </div>
     </div>
     """
   end
@@ -37,36 +43,42 @@ defmodule LvtWeb.GameView do
     # May need to unsubscribe on termination
     if connected?(socket), do: Phoenix.PubSub.subscribe(Lvt.InternalPubSub, "game")
 
-    # get_game_state(socket)
-
-    {:ok, assign(socket, name: get_random_name, guitarist: Lvt.Band.guitarist())}
+    {:ok, assign(socket, name: get_random_name, guitarist: Lvt.Band.guitarist(), strum_guitar: 0)}
   end
 
   def handle_event("select-guitar", _value, socket) do
     old_guitarist = Lvt.Band.guitarist()
 
-    new_guitarist = socket.assigns.name
+    maybe_new_guitarist = socket.assigns.name
 
-    with idk <- Lvt.Band.add_at(0, new_guitarist) do
+    with idk <- Lvt.Band.add_at(0, maybe_new_guitarist) do
       Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:update_game_state})
 
-      {:noreply, assign(socket, guitarist: new_guitarist)}
+      {:noreply, assign(socket, guitarist: maybe_new_guitarist)}
     else
       err ->
         {:noreply, socket}
     end
   end
 
+  def handle_event("guitar-keydown", key, socket) do
+    Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:play_sound, :guitar})
+
+    {:noreply, socket}
+  end
+
   def handle_event("un-select-guitar", _value, socket) do
     Lvt.Band.remove_at(0)
-    Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:update_game_state})
 
     {:noreply, assign(socket, guitarist: nil)}
   end
 
-  # Consume message from pubsub
   def handle_info({:update_game_state}, socket) do
     {:noreply, assign(socket, get_game_state(socket))}
+  end
+
+  def handle_info({:play_sound, guitar}, socket) do
+    {:noreply, assign(socket, strum_guitar: socket.assigns.strum_guitar + 1)}
   end
 
   defp get_random_name do
