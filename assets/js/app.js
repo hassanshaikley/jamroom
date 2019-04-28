@@ -17,10 +17,25 @@ import { Howl, Howler } from 'howler';
 
 const guitarSounds = {
     a: new Howl({
-        src: ['sounds/a_maj_guitar.mp3']
+        src: ['sounds/ax-grinder__a2-pmute.wav']
     }),
     b: new Howl({
-        src: ['sounds/b_maj_guitar.mp3']
+        src: ['sounds/ax-grinder__b2-pmute.wav']
+    }),
+    c: new Howl({
+        src: ['sounds/ax-grinder__c2-pmute.wav']
+    }),
+    d: new Howl({
+        src: ['sounds/ax-grinder__d2-pmute.wav']
+    }),
+    e: new Howl({
+        src: ['sounds/ax-grinder__e2-pmute.wav']
+    }),
+    f: new Howl({
+        src: ['sounds/ax-grinder__f2-pmute.wav']
+    }),
+    g: new Howl({
+        src: ['sounds/ax-grinder__g2-pmute.wav']
     })
 }
 
