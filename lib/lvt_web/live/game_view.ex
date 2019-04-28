@@ -27,11 +27,11 @@ defmodule LvtWeb.GameView do
         </div>
       <% end %>
 
-      <%= if @strum_guitar == true do %>
+      <%= if is_binary(@strum_guitar)  do %>
         <img src="/images/guitarist_1.png" class="game_img" />
         <div id="<%= @strum_guitar %>">
           <script>
-            window.playGuitar && window.playGuitar({chord: 'a', stroke: 'down'});
+            window.playGuitar && window.playGuitar({chord: "<%= @strum_guitar %>", stroke: 'down'});
           </script>
         </div>
       <% end %>
@@ -89,14 +89,18 @@ defmodule LvtWeb.GameView do
   end
 
   def handle_event("guitar-keydown", key, socket) do
-    Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:play_sound, :guitar})
+    possible_chords = ["a", "b"]
 
-    :timer.apply_after(
-      200,
-      Phoenix.PubSub,
-      :broadcast,
-      [Lvt.InternalPubSub, "game", {:stop_sound, :guitar}]
-    )
+    if Enum.member?(possible_chords, key) do
+      Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:play_sound, :guitar, key})
+
+      :timer.apply_after(
+        100,
+        Phoenix.PubSub,
+        :broadcast,
+        [Lvt.InternalPubSub, "game", {:stop_sound, :guitar}]
+      )
+    end
 
     {:noreply, socket}
   end
@@ -112,8 +116,8 @@ defmodule LvtWeb.GameView do
     {:noreply, assign(socket, get_game_state(socket))}
   end
 
-  def handle_info({:play_sound, guitar}, socket) do
-    {:noreply, assign(socket, strum_guitar: true)}
+  def handle_info({:play_sound, guitar, chord}, socket) do
+    {:noreply, assign(socket, strum_guitar: chord)}
   end
 
   def handle_info({:stop_sound, guitar}, socket) do
