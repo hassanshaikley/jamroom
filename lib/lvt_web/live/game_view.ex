@@ -89,7 +89,7 @@ defmodule LvtWeb.GameView do
   end
 
   def handle_event("guitar-keydown", key, socket) do
-    possible_chords = ["a", "b"]
+    possible_chords = ["a", "b", "c", "d", "e", "f", "g"]
 
     if Enum.member?(possible_chords, key) do
       Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:play_sound, :guitar, key})
