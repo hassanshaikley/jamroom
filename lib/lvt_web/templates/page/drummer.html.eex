@@ -1,17 +1,20 @@
 
 <%= if is_binary(@hit_drum)  do %>
-<img src="/images/drummer_1.png" class="game_img" />
+<img src="/images/drum_1.png" class="game_img" />
 <div id="<%= @hit_drum %>">
 <script>
-window.playDrum && window.playDrum({chord: "<%= @hit_drum %>", stroke: 'down'});
+window.playDrum && window.playDrum({key: "<%= @hit_drum %>"});
 </script>
 </div>
 <% end %>
 <%= if !is_nil(@drummer) && is_nil(@hit_drum) do  %>
-<img src="/images/drummer_2.png" class="game_img" />
+<img src="/images/drum_2.png" class="game_img" />
 <% end %>
 
+<%= if @drummer == nil do %>
+    <img src="/images/no_drummer.png" class="game_img" style="position: absolute;" />
+<% end %>
 
 <%= if @drummer == @name do %>
-    <div phx-keydown="drum-keydown" phx-target="window"> </div>
+    <div phx-keydown="drum-keydown" phx-target="window" style="position: absolute;"> </div>
 <% end %>

@@ -33,7 +33,12 @@ defmodule Lvt.Band do
   end
 
   def handle_call({:add_at, index, new_member}, _from, members) do
+    already_a_member = Enum.find(members, fn x -> x == new_member end) |> is_binary
+
     case Enum.at(members, index) do
+      _ when already_a_member ->
+        {:reply, {:error, "alreadyamember"}, members}
+
       _ when is_nil(new_member) ->
         updated_members = List.replace_at(members, index, new_member)
         {:reply, updated_members, updated_members}

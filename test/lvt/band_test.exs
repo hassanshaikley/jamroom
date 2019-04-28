@@ -7,8 +7,13 @@ defmodule Lvt.BandTest do
 
   test "add_at/2" do
     assert Lvt.Band.add_at(0, "fort") |> hd == "fort"
+    clean_up
+  end
 
-    # clean up.. probably not the best way
+  test "add_at/2 cannot have same object in two places" do
+    assert Lvt.Band.add_at(0, "fort") |> hd == "fort"
+    {:error, _} = Lvt.Band.add_at(1, "fort")
+
     clean_up
   end
 

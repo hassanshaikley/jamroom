@@ -20,5 +20,5 @@ window.playGuitar && window.playGuitar({chord: "<%= @strum_guitar %>", stroke: '
 <% end %>
 
 <%= if @guitarist == nil do %>
-    <img src="/images/no_guitarist.png" class="game_img" />
+    <img src="/images/no_guitarist.png" class="game_img" style="position: absolute;" />
 <% end %>

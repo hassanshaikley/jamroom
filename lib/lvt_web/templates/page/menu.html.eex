@@ -31,14 +31,8 @@ Drummer is: <%= @drummer %>
             Drop Drum
             </div>
         <% end %>
-
-
     </div>
-
 </div>
-
-
-
 
 <%= if @drummer == nil do %>
     <%# <img src="/images/no_drummer.png" class="game_img" /> %>

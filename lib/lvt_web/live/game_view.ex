@@ -11,8 +11,8 @@ defmodule LvtWeb.GameView do
     <div class="">
       <%= LvtWeb.PageView.render("menu.html", assigns) %>
       <img src="/images/bg.png" class="game_img" />
-      <%= LvtWeb.PageView.render("guitarist.html", assigns) %>
       <%= LvtWeb.PageView.render("drummer.html", assigns) %>
+      <%= LvtWeb.PageView.render("guitarist.html", assigns) %>
       </div>
     </div>
     """
@@ -96,9 +96,10 @@ defmodule LvtWeb.GameView do
   end
 
   def handle_event("drum-keydown", key, socket) do
-    possible_chords = ["s", "h", "k"]
+    IO.puts("DRUM KEYDOWN")
+    possible_keys = ["s", "b", "k"]
 
-    if Enum.member?(possible_chords, key) do
+    if Enum.member?(possible_keys, key) do
       Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:play_sound, :drum, key})
 
       :timer.apply_after(
@@ -123,19 +124,19 @@ defmodule LvtWeb.GameView do
     {:noreply, assign(socket, get_game_state(socket))}
   end
 
-  def handle_info({:play_sound, guitar, chord}, socket) do
+  def handle_info({:play_sound, :guitar, chord}, socket) do
     {:noreply, assign(socket, strum_guitar: chord)}
   end
 
-  def handle_info({:stop_sound, guitar}, socket) do
+  def handle_info({:stop_sound, :guitar}, socket) do
     {:noreply, assign(socket, strum_guitar: nil)}
   end
 
-  def handle_info({:play_sound, drum, chord}, socket) do
+  def handle_info({:play_sound, :drum, chord}, socket) do
     {:noreply, assign(socket, hit_drum: chord)}
   end
 
-  def handle_info({:stop_sound, drum}, socket) do
+  def handle_info({:stop_sound, :drum}, socket) do
     {:noreply, assign(socket, hit_drum: nil)}
   end
 

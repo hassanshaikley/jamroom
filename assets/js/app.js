@@ -46,7 +46,31 @@ const guitarSounds = {
 // import socket from "./socket"
 
 window.playGuitar = ({ chord, stroke }) => {
-    guitarSounds[chord].play()
+    if (guitarSounds[chord]) {
+        guitarSounds[chord].play()
+
+    } else {
+        console.log(`Failed to find chord ${chord}`)
+    }
+}
+
+const drumSounds = {
+    s: new Howl({
+        src: ['sounds/snare-drum.wav']
+    }),
+    k: new Howl({
+        src: ['sounds/kick-drum.wav']
+    }),
+    b: new Howl({
+        src: ['sounds/bass-drum.wav']
+    }),
+}
+
+window.playDrum = ({ key }) => {
+
+    console.log(key, drumSounds)
+
+    drumSounds[key].play()
 }
 
 import LiveSocket from "phoenix_live_view"
