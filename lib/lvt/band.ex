@@ -35,6 +35,8 @@ defmodule Lvt.Band do
   def handle_call({:add_at, index, new_member}, _from, members) do
     already_a_member = Enum.find(members, fn x -> x == new_member end) |> is_binary
 
+    IO.puts("ADDA T")
+
     case Enum.at(members, index) do
       _ when already_a_member ->
         {:reply, {:error, "alreadyamember"}, members}

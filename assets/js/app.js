@@ -64,6 +64,9 @@ const drumSounds = {
     b: new Howl({
         src: ['sounds/bass-drum.wav']
     }),
+    c: new Howl({
+        src: ['sounds/cymbal-drum.mp3']
+    }),
 }
 
 window.playDrum = ({ key }) => {

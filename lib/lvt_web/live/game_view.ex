@@ -5,6 +5,8 @@ defmodule LvtWeb.GameView do
   # <%= #@guitarist %>
 
   #       
+  @possible_drum_keys ["s", "b", "k", "c"]
+  @possible_guitar_chords ["a", "b", "c", "d", "e", "f", "g"]
 
   def render(assigns) do
     ~L"""
@@ -58,9 +60,7 @@ defmodule LvtWeb.GameView do
   end
 
   def handle_event("guitar-keydown", key, socket) do
-    possible_chords = ["a", "b", "c", "d", "e", "f", "g"]
-
-    if Enum.member?(possible_chords, key) do
+    if Enum.member?(@possible_guitar_chords, key) do
       Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:play_sound, :guitar, key})
 
       :timer.apply_after(
@@ -78,7 +78,7 @@ defmodule LvtWeb.GameView do
     Lvt.Band.remove_at(0)
     Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:update_game_state})
 
-    {:noreply, assign(socket, guitarist: nil, strum_guitar: nil)}
+    {:noreply, assign(socket, strum_guitar: nil)}
   end
 
   def handle_event("select-drum", _value, socket) do
@@ -88,7 +88,7 @@ defmodule LvtWeb.GameView do
 
     with idk <- Lvt.Band.add_at(1, maybe_new_drummer) do
       Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:update_game_state})
-      {:noreply, assign(socket, drummer: maybe_new_drummer, hit_drum: nil)}
+      {:noreply, assign(socket, hit_drum: nil)}
     else
       err ->
         {:noreply, socket}
@@ -96,10 +96,7 @@ defmodule LvtWeb.GameView do
   end
 
   def handle_event("drum-keydown", key, socket) do
-    IO.puts("DRUM KEYDOWN")
-    possible_keys = ["s", "b", "k"]
-
-    if Enum.member?(possible_keys, key) do
+    if Enum.member?(@possible_drum_keys, key) do
       Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:play_sound, :drum, key})
 
       :timer.apply_after(
@@ -114,7 +111,7 @@ defmodule LvtWeb.GameView do
   end
 
   def handle_event("un-select-drum", _value, socket) do
-    Lvt.Band.remove_at(0)
+    Lvt.Band.remove_at(1)
     Phoenix.PubSub.broadcast(Lvt.InternalPubSub, "game", {:update_game_state})
 
     {:noreply, assign(socket, drummer: nil, hit_drum: nil)}
@@ -146,8 +143,10 @@ defmodule LvtWeb.GameView do
 
   defp get_game_state(socket) do
     guitarist = Lvt.Band.guitarist()
+    drummer = Lvt.Band.drummer()
 
     socket.assigns
     |> Map.put(:guitarist, guitarist)
+    |> Map.put(:drummer, drummer)
   end
 end

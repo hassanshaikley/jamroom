@@ -9,25 +9,25 @@ Drummer is: <%= @drummer %>
 <div style="display: grid; grid-template-columns: 110px 110px;">
     <div>
         <%= if @guitarist == nil do %>
-            <div phx-click="select-guitar" style=" z-index: 999; background: yellow;">
+            <div phx-click="select-guitar" style=" z-index: 999; background: green;">
             Select Guitar
             </div>
         <% end %>
 
         <%= if @guitarist == @name do %>
-            <div phx-click="un-select-guitar" style=" z-index: 999; background: yellow;">
+            <div phx-click="un-select-guitar" style=" z-index: 999; background: red;">
             Drop Guitar
             </div>
         <% end %>
     </div>
     <div>
         <%= if @drummer == nil do %>
-            <div phx-click="select-drum" style="z-index: 999; background: yellow;     left: 103px;">
+            <div phx-click="select-drum" style="z-index: 999; background: green;     left: 103px;">
             Select Drum
             </div>
         <% end %>
         <%= if @drummer == @name do %>
-            <div phx-click="un-select-drum" style="z-index: 999; background: yellow;">
+            <div phx-click="un-select-drum" style="z-index: 999; background: red;">
             Drop Drum
             </div>
         <% end %>
