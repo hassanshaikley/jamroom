@@ -1,9 +1,11 @@
 <div>
-You are: <%= @name %>
+You are: <strong><%= @name %></strong>
 <br />
-Guitarist is: <%= @guitarist %>
+The band is: <strong>Critters of the Hollow</strong>
 <br />
-Drummer is: <%= @drummer %>
+Guitarist is: <strong><%= @guitarist %></strong>
+<br />
+Drummer is: <strong><%= @drummer %></strong>
 <br />
 
 <div style="display: grid; grid-template-columns: 110px 110px;">

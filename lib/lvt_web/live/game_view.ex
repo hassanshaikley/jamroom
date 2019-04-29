@@ -138,7 +138,20 @@ defmodule LvtWeb.GameView do
   end
 
   defp get_random_name do
-    "person-#{:rand.uniform(200)}"
+    names = [
+      "cersei",
+      "milo",
+      "pixel",
+      "pharmacy",
+      "drake",
+      "humanoid",
+      "kilogram",
+      "area",
+      "turkey",
+      "tanner"
+    ]
+
+    "#{Enum.random(names)}-#{:rand.uniform(200)}"
   end
 
   defp get_game_state(socket) do
