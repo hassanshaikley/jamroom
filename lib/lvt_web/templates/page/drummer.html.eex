@@ -7,6 +7,7 @@ window.playDrum && window.playDrum({key: "<%= @hit_drum %>"});
 </script>
 </div>
 <% end %>
+
 <%= if !is_nil(@drummer) && is_nil(@hit_drum) do  %>
 <img src="/images/drum_2.png" class="game_img" />
 <% end %>
@@ -17,4 +18,11 @@ window.playDrum && window.playDrum({key: "<%= @hit_drum %>"});
 
 <%= if @drummer == @name do %>
     <div phx-keydown="drum-keydown" phx-target="window" style="position: absolute;"> </div>
+    <div style="position: absolute; top: 650px;"> 
+    Controls: <br />
+    Snare: 1 <br />
+    Kick: 2 <br />
+     Bass: 3 <br />
+     Cymbal: 4
+     </div>
 <% end %>

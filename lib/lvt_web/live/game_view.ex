@@ -2,12 +2,9 @@ defmodule LvtWeb.GameView do
   use Phoenix.LiveView
   # use Lvt.Game
 
-  # <%= #@guitarist %>
-
-  #       
-  @possible_drum_keys ["s", "b", "k", "c"]
+  @possible_drum_keys ["1", "2", "3", "4"]
   @possible_guitar_chords ["a", "b", "c", "d", "e", "f", "g"]
-
+  @ms_between_beats 125
   def render(assigns) do
     ~L"""
     <div class="">
@@ -121,7 +118,18 @@ defmodule LvtWeb.GameView do
     {:noreply, assign(socket, get_game_state(socket))}
   end
 
+  def synchronize_sound() do
+    time = :os.system_time(:millisecond)
+    time_string = Integer.to_string(time)
+    ms_string = String.slice(time_string, -3..-1)
+    {ms, _} = Integer.parse(ms_string)
+    remainder = rem(ms, @ms_between_beats)
+    sleep_time = @ms_between_beats - remainder
+    :timer.sleep(sleep_time)
+  end
+
   def handle_info({:play_sound, :guitar, chord}, socket) do
+    synchronize_sound
     {:noreply, assign(socket, strum_guitar: chord)}
   end
 
@@ -130,6 +138,7 @@ defmodule LvtWeb.GameView do
   end
 
   def handle_info({:play_sound, :drum, chord}, socket) do
+    synchronize_sound
     {:noreply, assign(socket, hit_drum: chord)}
   end
 

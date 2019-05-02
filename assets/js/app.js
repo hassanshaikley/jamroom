@@ -55,24 +55,21 @@ window.playGuitar = ({ chord, stroke }) => {
 }
 
 const drumSounds = {
-    s: new Howl({
+    "1": new Howl({
         src: ['sounds/snare-drum.wav']
     }),
-    k: new Howl({
+    "2": new Howl({
         src: ['sounds/kick-drum.wav']
     }),
-    b: new Howl({
+    "3": new Howl({
         src: ['sounds/bass-drum.wav']
     }),
-    c: new Howl({
+    "4": new Howl({
         src: ['sounds/cymbal-drum.mp3']
     }),
 }
 
 window.playDrum = ({ key }) => {
-
-    console.log(key, drumSounds)
-
     drumSounds[key].play()
 }
 

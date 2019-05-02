@@ -16,8 +16,15 @@ window.playGuitar && window.playGuitar({chord: "<%= @strum_guitar %>", stroke: '
 
 <%= if @guitarist == @name do %>
 <div phx-keydown="guitar-keydown" phx-target="window"> </div>
-</div>
-<% end %>
+    <div style="position: absolute; top: 650px;"> 
+        Controls: <br />
+        a: A Maj <br />
+        b: B Maj <br />
+        c: C Maj <br />
+        d: D Maj  <br />
+        e: E Maj  <br />
+        f: F Maj  <br />
+     </div><% end %>
 
 <%= if @guitarist == nil do %>
     <img src="/images/no_guitarist.png" class="game_img" style="position: absolute;" />
