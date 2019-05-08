@@ -1,10 +1,8 @@
 <%= if is_binary(@hit_drum)  do %>
      <img src="/images/drum_1.png" class="game_img" />
-     <div id="<%= @hit_drum %>">
-          <script>
-               window.playDrum && window.playDrum({ key: "<%= @hit_drum %>" });
-          </script>
-     </div>
+     <script id="<%= @hit_drum %>">
+          window.playDrum && window.playDrum({ key: "<%= @hit_drum %>" });
+     </script>
 <% end %>
 
 <%= if !is_nil(@drummer) && is_nil(@hit_drum) do  %>
