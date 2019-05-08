@@ -1,30 +1,28 @@
-
-
-
 <%= if is_binary(@strum_guitar)  do %>
-<img src="/images/guitarist_1.png" class="game_img" />
-<div id="<%= @strum_guitar %>">
-<script>
-window.playGuitar && window.playGuitar({chord: "<%= @strum_guitar %>", stroke: 'down'});
-</script>
-</div>
+    <img src="/images/guitarist_1.png" class="game_img" />
+    <div id="<%= @strum_guitar %>">
+        <script>
+            window.playGuitar && window.playGuitar({ chord: "<%= @strum_guitar %>", stroke: 'down' });
+        </script>
+    </div>
 <% end %>
 <%= if !is_nil(@guitarist) && is_nil(@strum_guitar) do  %>
-<img src="/images/guitarist_2.png" class="game_img" />
+    <img src="/images/guitarist_2.png" class="game_img" />
 <% end %>
 
 
 <%= if @guitarist == @name do %>
-<div phx-keydown="guitar-keydown" phx-target="window"> </div>
-    <div style="position: absolute; top: 650px;"> 
+    <div phx-keydown="guitar-keydown" phx-target="window"></div>
+    <div style="position: absolute; top: 650px;">
         Controls: <br />
-        a: A Maj <br />
-        b: B Maj <br />
-        c: C Maj <br />
-        d: D Maj  <br />
-        e: E Maj  <br />
-        f: F Maj  <br />
-     </div><% end %>
+        1: A Maj <br />
+        2: B Maj <br />
+        3: C Maj <br />
+        4: D Maj <br />
+        5: E Maj <br />
+        6: F Maj <br />
+    </div>
+<% end %>
 
 <%= if @guitarist == nil do %>
     <img src="/images/no_guitarist.png" class="game_img" style="position: absolute;" />

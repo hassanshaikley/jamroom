@@ -1,46 +1,44 @@
 <div>
-You are: <strong><%= @name %></strong>
-<br />
-The band is: <strong> The Greens </strong>
-<br />
-Guitarist is: <strong><%= @guitarist %></strong>
-<br />
-Drummer is: <strong><%= @drummer %></strong>
-<br />
+    You are: <strong><%= @name %></strong>
+    <br />
+    The band is: <strong> The Greens </strong>
+    <br />
+    Guitarist is: <strong><%= @guitarist %></strong>
+    <br />
+    Drummer is: <strong><%= @drummer %></strong>
+    <br />
 
-<div style="display: grid; grid-template-columns: 110px 110px;">
-    <div>
-        <%= if @guitarist == nil do %>
+    <%# The select/drop Instrument buttons %>
+    <div style="display: grid; grid-template-columns: 110px 110px;">
+
+        <div>
+            <%= if @guitarist == nil do %>
             <div class="menu-btn" phx-click="select-guitar" style=" z-index: 999; background: green;">
-            Select Guitar
+                Select Guitar
             </div>
-        <% end %>
+            <% end %>
 
-        <%= if @guitarist == @name do %>
+            <%= if @guitarist == @name do %>
             <div class="menu-btn" phx-click="un-select-guitar" style=" z-index: 999; background: red;">
-            Drop Guitar
+                Drop Guitar
             </div>
-        <% end %>
-    </div>
-    <div>
-        <%= if @drummer == nil do %>
+            <% end %>
+        </div>
+        <div>
+            <%= if @drummer == nil do %>
             <div class="menu-btn" phx-click="select-drum" style="z-index: 999; background: green;     left: 103px;">
-            Select Drum
+                Select Drum
             </div>
-        <% end %>
-        <%= if @drummer == @name do %>
+            <% end %>
+            <%= if @drummer == @name do %>
             <div class="menu-btn" phx-click="un-select-drum" style="z-index: 999; background: red;">
-            Drop Drum
+                Drop Drum
             </div>
-        <% end %>
+            <% end %>
+        </div>
     </div>
+
+    <%= if @drummer == nil do %>
+    <%# <img src="/images/no_drummer.png" class="game_img" /> %> 
+    <% end %>
 </div>
-
-<%= if @drummer == nil do %>
-    <%# <img src="/images/no_drummer.png" class="game_img" /> %>
-<% end %>
-
-
-
-
-
