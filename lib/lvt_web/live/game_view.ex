@@ -3,8 +3,8 @@ defmodule LvtWeb.GameView do
   # use Lvt.Game
 
   @possible_drum_keys ["1", "2", "3", "4"]
-  @possible_guitar_chords ["a", "b", "c", "d", "e", "f", "g"]
-  @ms_between_beats 125
+  @possible_guitar_chords ["1", "2", "3", "4", "5", "6", "7"]
+  @ms_between_beats 75
   def render(assigns) do
     ~L"""
     <div class="">
