@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :lvt, LvtWeb.Endpoint,
+config :jamroom, JamroomWeb.Endpoint,
   http: [port: 4002],
   server: false
 
@@ -10,9 +10,9 @@ config :lvt, LvtWeb.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :lvt, Lvt.Repo,
+config :jamroom, Jamroom.Repo,
   username: "postgres",
   password: "postgres",
-  database: "lvt_test",
+  database: "jamroom_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

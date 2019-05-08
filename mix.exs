@@ -1,9 +1,9 @@
-defmodule Lvt.MixProject do
+defmodule Jamroom.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :lvt,
+      app: :jamroom,
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Lvt.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Lvt.Application, []},
+      mod: {Jamroom.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

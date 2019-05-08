@@ -1,4 +1,4 @@
-defmodule Lvt.DataCase do
+defmodule Jamroom.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,20 +16,20 @@ defmodule Lvt.DataCase do
 
   using do
     quote do
-      alias Lvt.Repo
+      alias Jamroom.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Lvt.DataCase
+      import Jamroom.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Lvt.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Jamroom.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Lvt.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Jamroom.Repo, {:shared, self()})
     end
 
     :ok

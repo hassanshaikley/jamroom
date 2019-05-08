@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :lvt, LvtWeb.Endpoint,
+config :jamroom, JamroomWeb.Endpoint,
   http: [port: System.get_env("PORT") || 4000],
   debug_errors: true,
   code_reloader: true,
@@ -46,13 +46,13 @@ config :lvt, LvtWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :lvt, LvtWeb.Endpoint,
+config :jamroom, JamroomWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg|mp3)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/lvt_web/{live,views}/.*(ex)$",
-      ~r"lib/lvt_web/templates/.*(eex)$",
+      ~r"lib/jamroom_web/{live,views}/.*(ex)$",
+      ~r"lib/jamroom_web/templates/.*(eex)$",
       ~r{lib/my_app_web/live/.*(ex)$}
     ]
   ]
@@ -68,9 +68,9 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
-config :lvt, Lvt.Repo,
+config :jamroom, Jamroom.Repo,
   username: "postgres",
   password: "postgres",
-  database: "lvt_dev",
+  database: "jamroom_dev",
   hostname: "localhost",
   pool_size: 10

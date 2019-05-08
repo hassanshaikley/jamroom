@@ -1,4 +1,4 @@
-defmodule LvtWeb.ChannelCase do
+defmodule JamroomWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule LvtWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint LvtWeb.Endpoint
+      @endpoint JamroomWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Lvt.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Jamroom.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Lvt.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Jamroom.Repo, {:shared, self()})
     end
 
     :ok

@@ -7,15 +7,15 @@
 # General application configuration
 use Mix.Config
 
-config :lvt,
-  ecto_repos: [Lvt.Repo]
+config :jamroom,
+  ecto_repos: [Jamroom.Repo]
 
 # Configures the endpoint
-config :lvt, LvtWeb.Endpoint,
+config :jamroom, JamroomWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "RwSstVPCy1KxJRqo05QuOP8T9CgTomCQmtNPrghMeXLAz178WohZbXhrj7skm0zI",
-  render_errors: [view: LvtWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Lvt.PubSub, adapter: Phoenix.PubSub.PG2],
+  render_errors: [view: JamroomWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: Jamroom.PubSub, adapter: Phoenix.PubSub.PG2],
   live_view: [
     signing_salt: "pls.pls.poogy123"
   ]
