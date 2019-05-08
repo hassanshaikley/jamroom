@@ -24,9 +24,9 @@ defmodule JamroomWeb.GameView do
     {:ok,
      assign(socket,
        name: get_random_name,
-       guitarist: Lvt.Band.guitarist(),
+       guitarist: Jamroom.Band.guitarist(),
        strum_guitar: nil,
-       drummer: Lvt.Band.drummer(),
+       drummer: Jamroom.Band.drummer(),
        hit_drum: nil
      )}
   end
@@ -118,6 +118,8 @@ defmodule JamroomWeb.GameView do
     {:noreply, assign(socket, get_game_state(socket))}
   end
 
+  # we want time to be kept by this function otherwise everyone will get a headache lol
+  # it also helps mask latency
   def synchronize_sound() do
     time = :os.system_time(:millisecond)
     time_string = Integer.to_string(time)
