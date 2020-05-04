@@ -1,6 +1,6 @@
 defmodule JamroomWeb.GameView do
   use Phoenix.LiveView
-  # use Jamroom.Game
+  alias Jamroom.Board
 
   @possible_drum_keys ["1", "2", "3", "4"]
   @possible_guitar_chords ["1", "2", "3", "4", "5", "6", "7"]
@@ -26,9 +26,9 @@ defmodule JamroomWeb.GameView do
     {:ok,
      assign(socket,
        name: get_random_name,
-       player_one: Jamroom.Band.guitarist(),
+       player_one: Board.guitarist(),
        strum_guitar: nil,
-       player_two: Jamroom.Band.drummer(),
+       player_two: Board.drummer(),
        hit_drum: nil,
        board: Enum.map(0..24, fn x -> "" end)
      )}
@@ -36,27 +36,39 @@ defmodule JamroomWeb.GameView do
 
   def terminate(_reason, socket) do
     with member_index <-
-           Jamroom.Band.members()
+           Board.members()
            |> Enum.find_index(fn x -> x == socket.assigns.name end) do
       member_index
-      |> Jamroom.Band.remove_at()
+      |> Board.remove_at()
     end
 
     Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
   end
 
   def handle_event("select-guitar", _value, socket) do
-    old_guitarist = Jamroom.Band.guitarist()
+    old_guitarist = Board.guitarist()
 
     maybe_new_guitarist = socket.assigns.name
 
-    with idk <- Jamroom.Band.add_at(0, maybe_new_guitarist) do
+    with idk <- Board.add_at(0, maybe_new_guitarist) do
       Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
       {:noreply, assign(socket, player_one: maybe_new_guitarist, strum_guitar: nil)}
     else
       err ->
         {:noreply, socket}
     end
+  end
+
+  def handle_event("start-game", _value, socket) do
+
+
+    # with idk <- Board.add_at(0, maybe_new_guitarist) do
+      # Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
+      # {:noreply, assign(socket, player_one: maybe_new_guitarist, strum_guitar: nil)}
+    # else
+    #   err ->
+    #     {:noreply, socket}
+    # end
   end
 
   def handle_event("guitar-keydown", key, socket) do
@@ -75,18 +87,18 @@ defmodule JamroomWeb.GameView do
   end
 
   def handle_event("un-select-guitar", _value, socket) do
-    Jamroom.Band.remove_at(0)
+    Board.remove_at(0)
     Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
 
     {:noreply, assign(socket, strum_guitar: nil)}
   end
 
   def handle_event("select-drum", _value, socket) do
-    old_drummer = Jamroom.Band.drummer()
+    old_drummer = Board.drummer()
 
     maybe_new_drummer = socket.assigns.name
 
-    with idk <- Jamroom.Band.add_at(1, maybe_new_drummer) do
+    with idk <- Board.add_at(1, maybe_new_drummer) do
       Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
       {:noreply, assign(socket, hit_drum: nil)}
     else
@@ -111,7 +123,7 @@ defmodule JamroomWeb.GameView do
   end
 
   def handle_event("un-select-drum", _value, socket) do
-    Jamroom.Band.remove_at(1)
+    Board.remove_at(1)
     Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
 
     {:noreply, assign(socket, player_two: nil, hit_drum: nil)}
@@ -169,8 +181,8 @@ defmodule JamroomWeb.GameView do
   end
 
   defp get_game_state(socket) do
-    guitarist = Jamroom.Band.guitarist()
-    drummer = Jamroom.Band.drummer()
+    guitarist = Board.guitarist()
+    drummer = Board.drummer()
 
     socket.assigns
     |> Map.put(:player_one, guitarist)

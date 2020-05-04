@@ -1,4 +1,4 @@
-defmodule Jamroom.Band do
+defmodule Jamroom.Board do
   use GenServer
 
   def start_link(opts) do

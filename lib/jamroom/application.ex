@@ -12,7 +12,7 @@ defmodule Jamroom.Application do
       Jamroom.Repo,
       # Start the endpoint when the application starts
       JamroomWeb.Endpoint,
-      Jamroom.Band,
+      Jamroom.Board,
       {Phoenix.PubSub.PG2, name: Jamroom.InternalPubSub, adapter: Phoenix.PubSub.PG2}
 
       # Starts a worker by calling: Jamroom.Worker.start_link(arg)
