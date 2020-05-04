@@ -5,13 +5,15 @@ defmodule JamroomWeb.GameView do
   @possible_drum_keys ["1", "2", "3", "4"]
   @possible_guitar_chords ["1", "2", "3", "4", "5", "6", "7"]
   @ms_between_beats 75
+
+  @word "friend"
   def render(assigns) do
     ~L"""
     <div class="">
       <%= JamroomWeb.PageView.render("menu.html", assigns) %>
-      <img src="/images/bg.png" class="game_img" />
       <%= JamroomWeb.PageView.render("drummer.html", assigns) %>
       <%= JamroomWeb.PageView.render("guitarist.html", assigns) %>
+      <%= JamroomWeb.PageView.render("board.html", assigns) %>
       </div>
     </div>
     """
@@ -24,10 +26,11 @@ defmodule JamroomWeb.GameView do
     {:ok,
      assign(socket,
        name: get_random_name,
-       guitarist: Jamroom.Band.guitarist(),
+       player_one: Jamroom.Band.guitarist(),
        strum_guitar: nil,
-       drummer: Jamroom.Band.drummer(),
-       hit_drum: nil
+       player_two: Jamroom.Band.drummer(),
+       hit_drum: nil,
+       board: Enum.map(0..24, fn x -> "" end)
      )}
   end
 
@@ -49,7 +52,7 @@ defmodule JamroomWeb.GameView do
 
     with idk <- Jamroom.Band.add_at(0, maybe_new_guitarist) do
       Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
-      {:noreply, assign(socket, guitarist: maybe_new_guitarist, strum_guitar: nil)}
+      {:noreply, assign(socket, player_one: maybe_new_guitarist, strum_guitar: nil)}
     else
       err ->
         {:noreply, socket}
@@ -111,7 +114,7 @@ defmodule JamroomWeb.GameView do
     Jamroom.Band.remove_at(1)
     Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
 
-    {:noreply, assign(socket, drummer: nil, hit_drum: nil)}
+    {:noreply, assign(socket, player_two: nil, hit_drum: nil)}
   end
 
   def handle_info({:update_game_state}, socket) do
@@ -170,7 +173,7 @@ defmodule JamroomWeb.GameView do
     drummer = Jamroom.Band.drummer()
 
     socket.assigns
-    |> Map.put(:guitarist, guitarist)
-    |> Map.put(:drummer, drummer)
+    |> Map.put(:player_one, guitarist)
+    |> Map.put(:player_two, drummer)
   end
 end

@@ -3,42 +3,42 @@
     <br />
     The band is: <strong> The Greens </strong>
     <br />
-    Guitarist is: <strong><%= @guitarist %></strong>
+    Guitarist is: <strong><%= @player_one %></strong>
     <br />
-    Drummer is: <strong><%= @drummer %></strong>
+    player_two is: <strong><%= @player_two %></strong>
     <br />
 
     <%# The select/drop Instrument buttons %>
     <div style="display: grid; grid-template-columns: 110px 110px;">
 
         <div>
-            <%= if @guitarist == nil do %>
+            <%= if @player_one == nil do %>
             <div class="menu-btn" phx-click="select-guitar" style=" z-index: 999; background: green;">
-                Select Guitar
+                Select Seat
             </div>
             <% end %>
 
-            <%= if @guitarist == @name do %>
+            <%= if @player_one == @name do %>
             <div class="menu-btn" phx-click="un-select-guitar" style=" z-index: 999; background: red;">
-                Drop Guitar
+                Drop Seat
             </div>
             <% end %>
         </div>
         <div>
-            <%= if @drummer == nil do %>
+            <%= if @player_two == nil do %>
             <div class="menu-btn" phx-click="select-drum" style="z-index: 999; background: green;     left: 103px;">
-                Select Drum
+                Select Seat
             </div>
             <% end %>
-            <%= if @drummer == @name do %>
+            <%= if @player_two == @name do %>
             <div class="menu-btn" phx-click="un-select-drum" style="z-index: 999; background: red;">
-                Drop Drum
+                Drop Seat
             </div>
             <% end %>
         </div>
     </div>
 
-    <%= if @drummer == nil do %>
-    <%# <img src="/images/no_drummer.png" class="game_img" /> %> 
+    <%= if @player_two == nil do %>
+    <%# <img src="/images/no_player_two.png" class="game_img" /> %>
     <% end %>
 </div>

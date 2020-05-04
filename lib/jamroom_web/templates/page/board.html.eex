@@ -1,0 +1,8 @@
+<div style="z-index: 1000; position: absolute;">
+    <div class="grid-container" style="border: 2px solid black">
+      <%= for element <- @board do %>
+          <div class="grid-item" style="border: 2px solid black; background: rgba(0, 20, 250, .5)"><%= element %></div>
+      <% end %>
+    </div>
+</div>
+

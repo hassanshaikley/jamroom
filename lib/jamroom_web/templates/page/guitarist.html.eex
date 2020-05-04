@@ -4,12 +4,12 @@
         window.playGuitar && window.playGuitar({ chord: "<%= @strum_guitar %>", stroke: 'down' });
     </script>
 <% end %>
-<%= if !is_nil(@guitarist) && is_nil(@strum_guitar) do  %>
+<%= if !is_nil(@player_one) && is_nil(@strum_guitar) do  %>
     <img src="/images/guitarist_2.png" class="game_img" />
 <% end %>
 
 
-<%= if @guitarist == @name do %>
+<%= if @player_one == @name do %>
     <div phx-keydown="guitar-keydown" phx-target="window"></div>
     <div style="position: absolute; top: 650px;">
         Controls: <br />
@@ -22,6 +22,6 @@
     </div>
 <% end %>
 
-<%= if @guitarist == nil do %>
+<%= if @player_one == nil do %>
     <img src="/images/no_guitarist.png" class="game_img" style="position: absolute;" />
 <% end %>
