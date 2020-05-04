@@ -36,7 +36,7 @@ defmodule JamroomWeb.GameView do
 
   def terminate(_reason, socket) do
     with member_index <-
-           Board.members()
+           Board.players()
            |> Enum.find_index(fn x -> x == socket.assigns.name end) do
       member_index
       |> Board.remove_at()

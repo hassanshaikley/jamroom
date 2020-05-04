@@ -2,8 +2,8 @@ defmodule Jamroom.BoardTest do
   use ExUnit.Case, async: true
   alias Jamroom.Board
 
-  test "members/0" do
-    assert Board.members() |> length == 5
+  test "players/0" do
+    assert Board.players() |> length == 5
   end
 
   test "add_at/2" do
@@ -21,7 +21,7 @@ defmodule Jamroom.BoardTest do
   test "remove_at/1" do
     Board.add_at(0, "fort")
     Board.remove_at(0)
-    assert Board.members() |> hd == nil
+    assert Board.players() |> hd == nil
   end
 
   test "remove_at/1 handles nil" do

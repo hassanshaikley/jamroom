@@ -20,39 +20,39 @@ defmodule Jamroom.Board do
     GenServer.call(__MODULE__, {:add_at, index, nil})
   end
 
-  def members() do
-    GenServer.call(__MODULE__, {:members})
+  def players() do
+    GenServer.call(__MODULE__, {:players})
   end
 
   def guitarist() do
-    GenServer.call(__MODULE__, {:members}) |> Enum.at(0)
+    GenServer.call(__MODULE__, {:players}) |> Enum.at(0)
   end
 
   def drummer() do
-    GenServer.call(__MODULE__, {:members}) |> Enum.at(1)
+    GenServer.call(__MODULE__, {:players}) |> Enum.at(1)
   end
 
-  def handle_call({:add_at, index, new_member}, _from, members) do
-    already_a_member = Enum.find(members, fn x -> x == new_member end) |> is_binary
+  def handle_call({:add_at, index, new_member}, _from, players) do
+    already_a_member = Enum.find(players, fn x -> x == new_member end) |> is_binary
 
-    case Enum.at(members, index) do
+    case Enum.at(players, index) do
       _ when already_a_member ->
-        {:reply, {:error, "alreadyamember"}, members}
+        {:reply, {:error, "alreadyamember"}, players}
 
       _ when is_nil(new_member) ->
-        updated_members = List.replace_at(members, index, new_member)
-        {:reply, updated_members, updated_members}
+        updated_players = List.replace_at(players, index, new_member)
+        {:reply, updated_players, updated_players}
 
       nil ->
-        updated_members = List.replace_at(members, index, new_member)
-        {:reply, updated_members, updated_members}
+        updated_players = List.replace_at(players, index, new_member)
+        {:reply, updated_players, updated_players}
 
       _ ->
-        {:reply, {:error, "taken"}, members}
+        {:reply, {:error, "taken"}, players}
     end
   end
 
-  def handle_call({:members}, _from, members) do
-    {:reply, members, members}
+  def handle_call({:players}, _from, players) do
+    {:reply, players, players}
   end
 end
