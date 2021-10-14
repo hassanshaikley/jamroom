@@ -15,7 +15,8 @@ config :jamroom, JamroomWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "RwSstVPCy1KxJRqo05QuOP8T9CgTomCQmtNPrghMeXLAz178WohZbXhrj7skm0zI",
   render_errors: [view: JamroomWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Jamroom.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: Jamroom.InternalPubSub,
+
   live_view: [
     signing_salt: "pls.pls.poogy123"
   ]

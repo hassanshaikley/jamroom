@@ -5,6 +5,8 @@ defmodule JamroomWeb.GameView do
   @possible_drum_keys ["1", "2", "3", "4"]
   @possible_guitar_chords ["1", "2", "3", "4", "5", "6", "7"]
   @ms_between_beats 75
+
+  @impl Phoenix.LiveView
   def render(assigns) do
     ~L"""
     <div class="">
@@ -17,20 +19,23 @@ defmodule JamroomWeb.GameView do
     """
   end
 
-  def mount(_session, socket) do
+  @impl Phoenix.LiveView
+  def mount(_params, _session, socket) do
     # May need to unsubscribe on termination
     if connected?(socket), do: Phoenix.PubSub.subscribe(Jamroom.InternalPubSub, "game")
 
-    {:ok,
-     assign(socket,
-       name: get_random_name,
-       guitarist: Jamroom.Band.guitarist(),
-       strum_guitar: nil,
-       drummer: Jamroom.Band.drummer(),
-       hit_drum: nil
-     )}
+    socket = assign(socket,
+      name: get_random_name(),
+      guitarist: Jamroom.Band.guitarist(),
+      strum_guitar: nil,
+      drummer: Jamroom.Band.drummer(),
+      hit_drum: nil
+    )
+
+    {:ok, socket}
   end
 
+  @impl Phoenix.LiveView
   def terminate(_reason, socket) do
     with member_index <-
            Jamroom.Band.members()
@@ -42,6 +47,7 @@ defmodule JamroomWeb.GameView do
     Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:update_game_state})
   end
 
+  @impl Phoenix.LiveView
   def handle_event("select-guitar", _value, socket) do
     old_guitarist = Jamroom.Band.guitarist()
 
@@ -56,7 +62,8 @@ defmodule JamroomWeb.GameView do
     end
   end
 
-  def handle_event("guitar-keydown", key, socket) do
+  def handle_event("guitar-keydown", params, socket) do
+    %{"key" => key} = params
     if Enum.member?(@possible_guitar_chords, key) do
       Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:play_sound, :guitar, key})
 
@@ -92,7 +99,8 @@ defmodule JamroomWeb.GameView do
     end
   end
 
-  def handle_event("drum-keydown", key, socket) do
+  def handle_event("drum-keydown", params, socket) do
+    %{"key" => key} = params
     if Enum.member?(@possible_drum_keys, key) do
       Phoenix.PubSub.broadcast(Jamroom.InternalPubSub, "game", {:play_sound, :drum, key})
 
@@ -114,8 +122,27 @@ defmodule JamroomWeb.GameView do
     {:noreply, assign(socket, drummer: nil, hit_drum: nil)}
   end
 
+  @impl Phoenix.LiveView
   def handle_info({:update_game_state}, socket) do
     {:noreply, assign(socket, get_game_state(socket))}
+  end
+
+  def handle_info({:play_sound, :guitar, chord}, socket) do
+    synchronize_sound()
+    {:noreply, assign(socket, strum_guitar: chord)}
+  end
+
+  def handle_info({:stop_sound, :guitar}, socket) do
+    {:noreply, assign(socket, strum_guitar: nil)}
+  end
+
+  def handle_info({:play_sound, :drum, chord}, socket) do
+    synchronize_sound()
+    {:noreply, assign(socket, hit_drum: chord)}
+  end
+
+  def handle_info({:stop_sound, :drum}, socket) do
+    {:noreply, assign(socket, hit_drum: nil)}
   end
 
   # we want time to be kept by this function otherwise everyone will get a headache lol
@@ -128,24 +155,6 @@ defmodule JamroomWeb.GameView do
     remainder = rem(ms, @ms_between_beats)
     sleep_time = @ms_between_beats - remainder
     :timer.sleep(sleep_time)
-  end
-
-  def handle_info({:play_sound, :guitar, chord}, socket) do
-    synchronize_sound
-    {:noreply, assign(socket, strum_guitar: chord)}
-  end
-
-  def handle_info({:stop_sound, :guitar}, socket) do
-    {:noreply, assign(socket, strum_guitar: nil)}
-  end
-
-  def handle_info({:play_sound, :drum, chord}, socket) do
-    synchronize_sound
-    {:noreply, assign(socket, hit_drum: chord)}
-  end
-
-  def handle_info({:stop_sound, :drum}, socket) do
-    {:noreply, assign(socket, hit_drum: nil)}
   end
 
   defp get_random_name do
@@ -170,6 +179,7 @@ defmodule JamroomWeb.GameView do
     drummer = Jamroom.Band.drummer()
 
     socket.assigns
+    |> Map.take([:name, :guitarist, :strum_guitar, :drummer, :hit_drum])
     |> Map.put(:guitarist, guitarist)
     |> Map.put(:drummer, drummer)
   end
