@@ -1,7 +1,8 @@
 import css from "../css/app.css"
 
 import "phoenix_html"
-import LiveSocket from "phoenix_live_view"
+import { Socket } from "phoenix"
+import { LiveSocket } from "phoenix_live_view"
 
 import { guitarSounds, drumSounds } from './sounds'
 
@@ -23,6 +24,22 @@ window.addEventListener("keydown", event => {
     event.preventDefault()
 });
 
-let liveSocket = new LiveSocket("/live");
+let Hooks = {};
+
+Hooks.PlayGuitar = {
+  mounted() {
+    const chord = this.el.dataset.chord;
+    window.playGuitar && window.playGuitar({ chord: chord, stroke: 'down' });
+  }
+}
+
+Hooks.PlayDrums = {
+  mounted() {
+    const key = this.el.dataset.key;
+    window.playDrum && window.playDrum({ key: key });
+  }
+}
+
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {}})
 
 liveSocket.connect();

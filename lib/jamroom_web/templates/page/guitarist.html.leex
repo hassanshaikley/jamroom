@@ -1,8 +1,7 @@
 <%= if is_binary(@strum_guitar)  do %>
     <img src="/images/guitarist_1.png" class="game_img" />
-    <script id="<%= @strum_guitar %>">
-        window.playGuitar && window.playGuitar({ chord: "<%= @strum_guitar %>", stroke: 'down' });
-    </script>
+    <div id="guitar-hook" data-chord="<%= @strum_guitar %>" phx-hook="PlayGuitar"></div>
+
 <% end %>
 <%= if !is_nil(@guitarist) && is_nil(@strum_guitar) do  %>
     <img src="/images/guitarist_2.png" class="game_img" />
@@ -10,7 +9,7 @@
 
 
 <%= if @guitarist == @name do %>
-    <div phx-keydown="guitar-keydown" phx-target="window"></div>
+    <div phx-window-keydown="guitar-keydown"></div>
     <div style="position: absolute; top: 650px;">
         Controls: <br />
         1: A Maj <br />

@@ -8,12 +8,10 @@ defmodule Jamroom.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
-      Jamroom.Repo,
       # Start the endpoint when the application starts
       JamroomWeb.Endpoint,
       Jamroom.Band,
-      {Phoenix.PubSub.PG2, name: Jamroom.InternalPubSub, adapter: Phoenix.PubSub.PG2}
+      {Phoenix.PubSub, name: Jamroom.InternalPubSub}
 
       # Starts a worker by calling: Jamroom.Worker.start_link(arg)
       # {Jamroom.Worker, arg},
