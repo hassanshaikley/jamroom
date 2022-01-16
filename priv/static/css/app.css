@@ -134,16 +134,14 @@ header nav a {
 }
 
 /* This file is for your main application css. */
-
 .game_img {
-    position: absolute;
-    -webkit-user-drag: none;
-}
+  position: absolute;
+  -webkit-user-drag: none; }
 
 .menu-btn {
-    border-radius: 2px;
-    padding: 2px;
-    text-align: center;
-    margin: 5px;
-    color: white;
-}
+  border-radius: 2px;
+  padding: 2px;
+  text-align: center;
+  margin: 5px;
+  color: white; }
+
